@@ -1,0 +1,10 @@
+body{
+ padding: 30px;
+}
+
+.table {
+ margin-top: 15px;
+ &__label{
+  font-weight: 600 !important;
+ }
+}
