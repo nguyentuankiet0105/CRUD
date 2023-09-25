@@ -8,6 +8,7 @@ export default defineConfig({
     alias: {
       '@components': path.resolve(__dirname, './src/components'),
       '@constants': path.resolve(__dirname, './src/constants'),
+      "@interfaces": path.resolve(__dirname, './src/interfaces'),
     }
   }
 })

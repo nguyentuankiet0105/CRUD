@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import axios, { AxiosResponse } from "axios";
 import {
   Table,
   TableBody,
@@ -9,8 +11,21 @@ import {
   Button
 } from '@mui/material';
 import { tableForm } from '@constants/constant'
+import { TUser } from "@interfaces/user-interface"
 
 const TableCustom = () => {
+  const [listUser, setListUser] = useState<TUser[]>([])
+
+  useEffect(() => {
+    axios.get("http://localhost:3000/users")
+      .then((res: AxiosResponse) => {
+        setListUser(res.data as TUser[])
+
+      }).catch((err: AxiosResponse) => {
+        throw err
+      });
+  }, [])
+
   return (
     <>
       <TableContainer className="table" component={Paper}>
@@ -23,7 +38,7 @@ const TableCustom = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tableForm && tableForm.data.map(item => (
+            {listUser && listUser?.map((item: TUser) => (
               <TableRow key={item.id}>
                 <TableCell align="center">{item.id}</TableCell>
                 <TableCell align="center">{item.name}</TableCell>
