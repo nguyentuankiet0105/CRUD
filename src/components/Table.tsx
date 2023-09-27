@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-import axios, { AxiosResponse } from "axios";
 import {
   Table,
   TableBody,
@@ -13,19 +11,14 @@ import {
 import { tableForm } from '@constants/constant'
 import { TUser } from "@interfaces/user-interface"
 
-const TableCustom = () => {
-  const [listUser, setListUser] = useState<TUser[]>([])
+type TProps = {
+  data: TUser[],
+  handleEditUser: (id: string) => void
+  handleDeleteUser: (id: string) => void
+}
 
-  useEffect(() => {
-    axios.get("http://localhost:3000/users")
-      .then((res: AxiosResponse) => {
-        setListUser(res.data as TUser[])
-
-      }).catch((err: AxiosResponse) => {
-        throw err
-      });
-  }, [])
-
+const TableCustom = (props: TProps) => {
+  const { data, handleEditUser, handleDeleteUser } = props
   return (
     <>
       <TableContainer className="table" component={Paper}>
@@ -38,15 +31,15 @@ const TableCustom = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {listUser && listUser?.map((item: TUser) => (
+            {data && data?.map((item: TUser) => (
               <TableRow key={item.id}>
                 <TableCell align="center">{item.id}</TableCell>
                 <TableCell align="center">{item.name}</TableCell>
                 <TableCell align="center">{item.phone}</TableCell>
                 <TableCell align="center">{item.role}</TableCell>
                 <TableCell align="center">
-                  <Button variant="outlined">Edit</Button>
-                  <Button variant="outlined" color="error">Delete</Button>
+                  <Button variant="outlined" onClick={() => handleEditUser(item.id)}>Edit</Button>
+                  <Button variant="outlined" color="error" onClick={() => handleDeleteUser(item.id)}>Delete</Button>
                 </TableCell>
               </TableRow>
             ))}

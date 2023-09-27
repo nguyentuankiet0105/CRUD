@@ -4,22 +4,22 @@ export const tableForm = {
 export const roles = [
  {
   label: "Director",
-  value: 1
+  value: "Director"
  },
  {
   label: "Admin",
-  value: 2
+  value: "Admin"
  },
  {
   label: "Leader",
-  value: 3
+  value: "Leader"
  },
  {
   label: "Staff",
-  value: 4
+  value: "Staff"
  },
  {
   label: "Intern",
-  value: 5
+  value: "Intern"
  },
 ]
