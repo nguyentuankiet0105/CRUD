@@ -9,6 +9,8 @@ export default defineConfig({
       '@components': path.resolve(__dirname, './src/components'),
       '@constants': path.resolve(__dirname, './src/constants'),
       "@interfaces": path.resolve(__dirname, './src/interfaces'),
+      "@store": path.resolve(__dirname, './src/store'),
+      "@reducer": path.resolve(__dirname, './src/store/reducer'),
     }
   }
 })

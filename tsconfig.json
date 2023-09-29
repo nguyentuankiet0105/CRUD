@@ -2,9 +2,11 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
-      "@components/*":["components/*"],
-      "@constants/*":["constants/*"],
-      "@interfaces/*":["interfaces/*"]
+      "@components/*": ["components/*"],
+      "@constants/*": ["constants/*"],
+      "@interfaces/*": ["interfaces/*"],
+      "@store/*": ["store/*"],
+      "@reducer/*": ["store/reducer/*"],
     },
     "target": "ES2020",
     "useDefineForClassFields": true,
