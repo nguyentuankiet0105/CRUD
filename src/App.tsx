@@ -1,23 +1,20 @@
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { TUser } from "@interfaces/user-interface"
 import Table from "@components/Table"
 import Form from "@components/Form"
-import { useEffect, useState } from "react"
-import { TUser } from "@interfaces/user-interface"
-import axios, { AxiosResponse } from "axios"
+import { getAllUser, deleteUser } from "@service/userService"
 
 function App() {
-  const [data, setData] = useState<TUser[]>([])
+  const data = useSelector(state => state.user.listUser)
   const [isOpen, setIsOpen] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [editingUser, setEditingUser] = useState<TUser | null>(null)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    axios.get("http://localhost:3000/users")
-      .then((res: AxiosResponse) => {
-        setData(res.data as TUser[])
-      }).catch((err: AxiosResponse) => {
-        throw err
-      });
-  }, [])
+    dispatch(getAllUser())
+  }, [dispatch])
 
   const handleOpenForm = () => {
     setIsEdit(false)
@@ -25,8 +22,9 @@ function App() {
   }
 
   const handleDeleteUser = (id: string) => {
-   console.log(id);
+    dispatch(deleteUser(id)).then(dispatch(getAllUser()))
   }
+
   const handleEditUser = (id: string) => {
     const userToEdit: TUser = data.find(item => item.id === id)
     setEditingUser(userToEdit)

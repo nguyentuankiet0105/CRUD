@@ -1,15 +1,17 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux"
 import { useForm, SubmitHandler, Controller, FieldValues } from "react-hook-form"
 import { Modal, Box, TextField, Button, MenuItem, Stack, Typography } from '@mui/material';
 import { TUser } from '@interfaces/user-interface';
 import { roles } from '@constants/constant';
-import { useEffect } from "react";
-import axios, { AxiosResponse } from "axios"
+import { createUser, editUser } from "@service/userService"
+
 
 type TProps = {
   isEdit: boolean,
   isOpen: boolean,
   setIsEdit: () => void,
-  setIsOpen: (isOpen : boolean) => void,
+  setIsOpen: (isOpen: boolean) => void,
   handleOpenForm: () => void,
   editingUser: TUser | null
 }
@@ -28,6 +30,8 @@ const Form = (props: TProps) => {
     boxShadow: 24,
     p: 4,
   };
+
+  const dispatch = useDispatch()
 
   const { isOpen, isEdit, handleOpenForm, setIsOpen, editingUser } = props
   const { register, reset, setValue, handleSubmit, control, formState: { errors } } = useForm<TUser>(
@@ -56,20 +60,9 @@ const Form = (props: TProps) => {
   }
   const handlCreateUser: SubmitHandler = (data: TUser) => {
     if (editingUser && isEdit) {
-      axios.put(`http://localhost:3000/users/${editingUser.id}`, data)
-        .then((res: AxiosResponse) => {
-          console.log("🚀 ~ file: Form.tsx:61 ~ .then ~ res:", res.data)
-        }).catch((err: AxiosResponse) => {
-          throw err
-        });
+      dispatch(editUser(data))
     } else {
-      console.log(data);
-      axios.post(`http://localhost:3000/users`, data)
-        .then((res: AxiosResponse) => {
-          console.log("🚀 ~ file: Form.tsx:68 ~ .then ~ res:", res)
-        }).catch((err: AxiosResponse) => {
-          throw err
-        });
+      dispatch(createUser(data))
     }
     handleCloseForm()
   }

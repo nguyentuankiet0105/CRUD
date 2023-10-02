@@ -22,7 +22,7 @@ const TableCustom = (props: TProps) => {
   return (
     <>
       <TableContainer className="table" component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table sx={{ minWidth: 320 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               {tableForm && tableForm.head.map((item, index) => (
