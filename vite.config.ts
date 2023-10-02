@@ -12,6 +12,7 @@ export default defineConfig({
       "@store": path.resolve(__dirname, './src/store'),
       "@reducer": path.resolve(__dirname, './src/store/reducer'),
       "@service": path.resolve(__dirname, './src/service'),
+      "@axios": path.resolve(__dirname, './src/axios'),
     }
   }
 })

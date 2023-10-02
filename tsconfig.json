@@ -8,6 +8,7 @@
       "@store/*": ["store/*"],
       "@reducer/*": ["store/reducer/*"],
       "@service/*": ["service/*"],
+      "@axios/*": ["axios/*"],
     },
     "target": "ES2020",
     "useDefineForClassFields": true,
