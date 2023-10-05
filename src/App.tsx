@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { TUser } from "@interfaces/user-interface"
 import Table from "@components/Table"
@@ -6,20 +6,40 @@ import Form from "@components/Form"
 import { getAllUser, deleteUser } from "@service/userService"
 
 function App() {
+  const dispatch = useDispatch()
   const data = useSelector(state => state.user.listUser)
+  const totalPage = useSelector(state => state.user.total)
   const [isOpen, setIsOpen] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [editingUser, setEditingUser] = useState<TUser | null>(null)
-  const dispatch = useDispatch()
+  const [pagination, setPagination] = useState({
+    page: 0,
+    rowsPerPage: 5
+  })
 
   useEffect(() => {
-    dispatch(getAllUser())
-  }, [dispatch])
+    dispatch(getAllUser({
+      _page: Number(pagination.page) + 1,
+      _limit: pagination.rowsPerPage,
+    }))
+  }, [dispatch, pagination])
 
   const handleOpenForm = () => {
     setIsEdit(false)
     setIsOpen(true)
   }
+
+  const handleChangePage = (
+    e: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number,
+  ) => {
+    setPagination((pre) => ({ ...pre, page: newPage }));
+  };
+  const handleChangeRowsPerPage = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setPagination((pre) => ({ ...pre, rowsPerPage: parseInt(e.target.value, 10)}));
+  };
 
   const handleDeleteUser = (id: string) => {
     dispatch(deleteUser(id)).then(dispatch(getAllUser()))
@@ -45,7 +65,13 @@ function App() {
       <Table
         data={data}
         handleDeleteUser={handleDeleteUser}
-        handleEditUser={handleEditUser} />
+        handleEditUser={handleEditUser}
+        totalPage={totalPage}
+        page={pagination.page}
+        rowsPerPage={pagination.rowsPerPage}
+        handleChangePage={handleChangePage}
+        handleChangeRowsPerPage={handleChangeRowsPerPage}
+      />
     </>
   )
 }

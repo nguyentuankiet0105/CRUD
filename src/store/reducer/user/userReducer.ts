@@ -10,6 +10,7 @@ export const userReducer = createSlice({
   name: "userReducer",
   initialState: {
     listUser: [],
+    total: null,
     loading: false,
     error: null,
   },
@@ -21,7 +22,9 @@ export const userReducer = createSlice({
         state.loading = true;
       })
       .addCase(getAllUser.fulfilled, (state, action) => {
-        state.listUser = action.payload;
+        const { total, result } = action.payload
+        state.total = total
+        state.listUser = result;
       })
       .addCase(getAllUser.rejected, (state) => {
         state.loading = false;

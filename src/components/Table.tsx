@@ -6,19 +6,26 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Button
+  Button,
+  TablePagination
 } from '@mui/material';
 import { tableForm } from '@constants/constant'
 import { TUser } from "@interfaces/user-interface"
 
 type TProps = {
   data: TUser[],
-  handleEditUser: (id: string) => void
-  handleDeleteUser: (id: string) => void
+  handleEditUser: (id: string) => void,
+  handleDeleteUser: (id: string) => void,
+  totalPage: number,
+  page: number,
+  rowsPerPage: number,
+  handleChangePage: () => void,
+  handleChangeRowsPerPage: () => void,
 }
 
 const TableCustom = (props: TProps) => {
-  const { data, handleEditUser, handleDeleteUser } = props
+  const { data, handleEditUser, handleDeleteUser, totalPage, page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = props
+
   return (
     <>
       <TableContainer className="table" component={Paper}>
@@ -45,6 +52,15 @@ const TableCustom = (props: TProps) => {
             ))}
           </TableBody>
         </Table>
+        <TablePagination
+          component="div"
+          count={totalPage}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          rowsPerPageOptions={[5, 10, 15, { value: -1, label: 'All' }]}
+        />
       </TableContainer>
     </>
   )

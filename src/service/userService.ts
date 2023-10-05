@@ -2,10 +2,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { TUser } from '@interfaces/user-interface';
 import api from "@axios/axios"
 
-export const getAllUser = createAsyncThunk("getAllUser", async () => {
- const res = await api.get("/users")
+export const getAllUser = createAsyncThunk("getAllUser", async (params: Object) => {
+ const res = await api.get(`/users`, { params: params })
+ const total = res.headers["x-total-count"]
  const result = res.data
- return result
+ return { total, result }
 })
 
 export const createUser = createAsyncThunk("createUser", async (data: TUser) => {
