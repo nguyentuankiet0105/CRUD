@@ -59,7 +59,7 @@ const TableCustom = (props: TProps) => {
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}
           onRowsPerPageChange={handleChangeRowsPerPage}
-          rowsPerPageOptions={[5, 10, 15, { value: -1, label: 'All' }]}
+          rowsPerPageOptions={[5, 10, 15, 20]}
         />
       </TableContainer>
     </>

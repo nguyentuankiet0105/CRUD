@@ -1,73 +1,88 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   getAllUser,
   createUser,
   editUser,
   deleteUser,
 } from "@service/userService";
+import { TUser } from '@interfaces/user-interface';
+import { RootState } from "@store/index";
 
 export const userReducer = createSlice({
   name: "userReducer",
   initialState: {
     listUser: [],
-    total: null,
+    pagination: {
+      total: null,
+      page: 0,
+      rowsPerPage: 5
+    },
     loading: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    setPage: (state: RootState, action: PayloadAction) => {
+      state.pagination.page = action.payload
+    },
+    setRowsPerPage: (state: RootState, action: PayloadAction) => {
+      state.pagination.rowsPerPage = action.payload
+    }
+  },
   extraReducers: (builder) => {
     // get users
     builder
-      .addCase(getAllUser.pending, (state) => {
+      .addCase(getAllUser.pending, (state: RootState) => {
         state.loading = true;
       })
-      .addCase(getAllUser.fulfilled, (state, action) => {
+      .addCase(getAllUser.fulfilled, (state: RootState, action: PayloadAction) => {
         const { total, result } = action.payload
-        state.total = total
+        state.pagination.total = total
         state.listUser = result;
       })
-      .addCase(getAllUser.rejected, (state) => {
+      .addCase(getAllUser.rejected, (state: RootState) => {
         state.loading = false;
       });
     // create user
     builder
-      .addCase(createUser.pending, (state) => {
+      .addCase(createUser.pending, (state: RootState) => {
         state.loading = true;
       })
-      .addCase(createUser.fulfilled, (state, action) => {
+      .addCase(createUser.fulfilled, (state: RootState, action: PayloadAction) => {
         state.loading = false;
         state.listUser.push(action.payload);
       })
-      .addCase(createUser.rejected, (state) => {
+      .addCase(createUser.rejected, (state: RootState) => {
         state.loading = false;
       }),
       // edit user
       builder
-        .addCase(editUser.pending, (state) => {
+        .addCase(editUser.pending, (state: RootState) => {
           state.loading = true;
         })
-        .addCase(editUser.fulfilled, (state, action) => {
+        .addCase(editUser.fulfilled, (state: RootState, action: PayloadAction) => {
           state.loading = false;
-          state.listUser = state.listUser.map((item) =>
+          state.listUser = state.listUser.map((item: TUser) =>
             item.id === action.payload.id ? action.payload : item
           );
         })
-        .addCase(editUser.rejected, (state) => {
+        .addCase(editUser.rejected, (state: RootState) => {
           state.loading = false;
         }),
       // delete user
       builder
-        .addCase(deleteUser.pending, (state) => {
+        .addCase(deleteUser.pending, (state: RootState) => {
           state.loading = true;
         })
-        .addCase(deleteUser.fulfilled, (state, action) => {
+        .addCase(deleteUser.fulfilled, (state: RootState, action: PayloadAction) => {
           const { id } = action.payload;
           if (id) {
-            state.listUser = state.listUser.filter((item) => item.id !== id);
+            state.listUser = state.listUser.filter((item: TUser) => item.id !== id);
           }
         })
-        .addCase(deleteUser.rejected, (state) => {
+        .addCase(deleteUser.rejected, (state: RootState) => {
           state.loading = false;
         });
   },
 });
+
+export const { setPage, setRowsPerPage } = userReducer.actions

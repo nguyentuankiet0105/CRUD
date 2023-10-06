@@ -1,48 +1,49 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { TUser } from "@interfaces/user-interface"
 import Table from "@components/Table"
 import Form from "@components/Form"
 import { getAllUser, deleteUser } from "@service/userService"
+import { setPage, setRowsPerPage } from "@store/reducer/user/userReducer"
 
 function App() {
   const dispatch = useDispatch()
   const data = useSelector(state => state.user.listUser)
-  const totalPage = useSelector(state => state.user.total)
+  const pagination = useSelector(state => state.user.pagination)
   const [isOpen, setIsOpen] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [editingUser, setEditingUser] = useState<TUser | null>(null)
-  const [pagination, setPagination] = useState({
-    page: 0,
-    rowsPerPage: 5
-  })
-
-  useEffect(() => {
-    dispatch(getAllUser({
-      _page: Number(pagination.page) + 1,
-      _limit: pagination.rowsPerPage,
-    }))
-  }, [dispatch, pagination])
 
   const handleOpenForm = () => {
     setIsEdit(false)
     setIsOpen(true)
   }
-
   const handleChangePage = (
     e: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
   ) => {
-    setPagination((pre) => ({ ...pre, page: newPage }));
+    dispatch(setPage(newPage))
   };
   const handleChangeRowsPerPage = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setPagination((pre) => ({ ...pre, rowsPerPage: parseInt(e.target.value, 10) }));
+    dispatch(setRowsPerPage(parseInt(e.target.value, 10)))
   };
 
+  const handleGetAllUser = useCallback(() => {
+    dispatch(getAllUser({
+      _page: Number(pagination.page) + 1,
+      _limit: pagination.rowsPerPage,
+    }))
+
+  }, [dispatch, pagination.page, pagination.rowsPerPage])
+
+  useEffect(() => {
+    handleGetAllUser()
+  }, [handleGetAllUser])
+
   const handleDeleteUser = (id: string) => {
-    dispatch(deleteUser(id)).then(dispatch(getAllUser()))
+    dispatch(deleteUser(id)).then(handleGetAllUser())
   }
 
   const handleEditUser = (id: string) => {
@@ -66,7 +67,7 @@ function App() {
         data={data}
         handleDeleteUser={handleDeleteUser}
         handleEditUser={handleEditUser}
-        totalPage={totalPage}
+        totalPage={pagination.total}
         page={pagination.page}
         rowsPerPage={pagination.rowsPerPage}
         handleChangePage={handleChangePage}

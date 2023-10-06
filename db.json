@@ -25,24 +25,6 @@
       "role": "Staff"
     },
     {
-      "id": "5",
-      "name": "kiet 5",
-      "phone": "976459539",
-      "role": "Leader"
-    },
-    {
-      "id": "6",
-      "name": "kiet 6",
-      "phone": "976459539",
-      "role": "Staff"
-    },
-    {
-      "id": "7",
-      "name": "kiet 7 7",
-      "phone": "976459539",
-      "role": "Staff"
-    },
-    {
       "id": "9",
       "name": "kiet 9",
       "phone": "976459539",
@@ -63,6 +45,36 @@
     {
       "id": "12",
       "name": "kiet 12",
+      "phone": "976459539",
+      "role": "Leader"
+    },
+    {
+      "id": "14",
+      "name": "kiet 14",
+      "phone": "976459539",
+      "role": "Staff"
+    },
+    {
+      "id": "15 ",
+      "name": "kiet 15",
+      "phone": "976459539",
+      "role": "Leader"
+    },
+    {
+      "id": "16",
+      "name": "kiet 16",
+      "phone": "0123456789",
+      "role": "Leader"
+    },
+    {
+      "id": "17",
+      "name": "kiet 17",
+      "phone": "976459539",
+      "role": "Director"
+    },
+    {
+      "id": "18",
+      "name": "kiet 18",
       "phone": "976459539",
       "role": "Leader"
     }
