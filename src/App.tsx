@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { TUser } from "@interfaces/user-interface"
 import Table from "@components/Table"
@@ -38,7 +38,7 @@ function App() {
   const handleChangeRowsPerPage = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setPagination((pre) => ({ ...pre, rowsPerPage: parseInt(e.target.value, 10)}));
+    setPagination((pre) => ({ ...pre, rowsPerPage: parseInt(e.target.value, 10) }));
   };
 
   const handleDeleteUser = (id: string) => {
