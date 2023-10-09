@@ -4,7 +4,7 @@ import api from "@axios/axios"
 
 export const getAllUser = createAsyncThunk("getAllUser", async (params: object) => {
  const res = await api.get(`/users`, { params: params })
- const total = res.headers["x-total-count"]
+ const total = Number(res.headers["x-total-count"])
  const result = res.data
  return { total, result }
 })

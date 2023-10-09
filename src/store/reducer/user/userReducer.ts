@@ -13,12 +13,12 @@ export const userReducer = createSlice({
   initialState: {
     listUser: [],
     pagination: {
-      total: null,
+      total: 0,
       page: 0,
       rowsPerPage: 5
     },
     loading: false,
-    error: null,
+    error: {},
   },
   reducers: {
     setPage: (state: RootState, action: PayloadAction) => {
@@ -39,8 +39,9 @@ export const userReducer = createSlice({
         state.pagination.total = total
         state.listUser = result;
       })
-      .addCase(getAllUser.rejected, (state: RootState) => {
+      .addCase(getAllUser.rejected, (state: RootState, action: PayloadAction) => {
         state.loading = false;
+        state.error = action.error
       });
     // create user
     builder
@@ -51,8 +52,9 @@ export const userReducer = createSlice({
         state.loading = false;
         state.listUser.push(action.payload);
       })
-      .addCase(createUser.rejected, (state: RootState) => {
+      .addCase(createUser.rejected, (state: RootState, action: PayloadAction) => {
         state.loading = false;
+        state.error = action.error
       }),
       // edit user
       builder
@@ -65,8 +67,9 @@ export const userReducer = createSlice({
             item.id === action.payload.id ? action.payload : item
           );
         })
-        .addCase(editUser.rejected, (state: RootState) => {
+        .addCase(editUser.rejected, (state: RootState, action: PayloadAction) => {
           state.loading = false;
+          state.error = action.error
         }),
       // delete user
       builder
@@ -79,8 +82,9 @@ export const userReducer = createSlice({
             state.listUser = state.listUser.filter((item: TUser) => item.id !== id);
           }
         })
-        .addCase(deleteUser.rejected, (state: RootState) => {
+        .addCase(deleteUser.rejected, (state: RootState, action: PayloadAction) => {
           state.loading = false;
+          state.error = action.error
         });
   },
 });
