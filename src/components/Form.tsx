@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux"
 import { useForm, SubmitHandler, Controller, FieldValues } from "react-hook-form"
 import { Modal, Box, TextField, Button, MenuItem, Stack, Typography } from '@mui/material';
+import AlertMessage from "@components/Alert"
 import { TUser } from '@interfaces/user-interface';
 import { roles } from '@constants/constant';
 import { createUser, editUser } from "@service/userService"
@@ -30,10 +31,10 @@ const Form = (props: TProps) => {
     boxShadow: 24,
     p: 4,
   };
-
+  const { isOpen, isEdit, handleOpenForm, setIsOpen, editingUser } = props
   const dispatch = useDispatch()
 
-  const { isOpen, isEdit, handleOpenForm, setIsOpen, editingUser } = props
+  const [showAlert, setShowAlert] = useState<boolean>(false)
   const { register, reset, setValue, handleSubmit, control, formState: { errors } } = useForm<TUser>(
     {
       defaultValues: {
@@ -64,11 +65,23 @@ const Form = (props: TProps) => {
     } else {
       dispatch(createUser(data))
     }
+    setShowAlert(true)
     handleCloseForm()
   }
 
+  const message = useMemo(() => {
+    if (editingUser && isEdit) return 'edited'
+    return 'created'
+  }, [editingUser, isEdit])
+
   return (
     <>
+      <AlertMessage
+        showAlert={showAlert}
+        setShowAlert={setShowAlert}
+        typeAlert="success"
+        message={`The user has been successfully ${message}.`}
+      />
       {!isOpen ?
         (<Button variant="contained" onClick={handleOpenForm}>
           Add New
