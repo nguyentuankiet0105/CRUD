@@ -4,6 +4,8 @@ import { TUser } from "@interfaces/user-interface"
 import Table from "@components/Table"
 import Form from "@components/Form"
 import AlertMessage from "@components/Alert"
+import Dialog from '@components/Dialog';
+
 import { getAllUser, deleteUser } from "@service/userService"
 import { setPage, setRowsPerPage } from "@store/reducer/user/userReducer"
 
@@ -13,9 +15,10 @@ function App() {
   const pagination = useSelector(state => state.user.pagination)
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [isEdit, setIsEdit] = useState<boolean>(false)
-  const [editingUser, setEditingUser] = useState<TUser | null>(null)
   const [showAlert, setShowAlert] = useState<boolean>(false)
-  const [message, setMessage] = useState<string>("")
+  const [openDialog, setOpenDialog] = useState<boolean>(false)
+  const [editingUser, setEditingUser] = useState<TUser | null>(null)
+  const [userDelete, setUserDelete] = useState<TUser | null>(null)
 
   const handleOpenForm = () => {
     setIsEdit(false)
@@ -46,10 +49,14 @@ function App() {
   }, [handleGetAllUser])
 
   const handleDeleteUser = (id: string) => {
-    dispatch(deleteUser(id)).then(handleGetAllUser())
+    setOpenDialog(true)
+    const userSelect = data.find(item => item.id === id)
+    setUserDelete(userSelect)
+  }
+  const handleConfirmDelete = () => {
+    dispatch(deleteUser(userDelete?.id)).then(handleGetAllUser())
     setShowAlert(true)
-    const userNameDeleted = data.find(item => item.id === id).name
-    setMessage(`You has been deleted user: ${userNameDeleted} !`)
+    setOpenDialog(false)
   }
 
   const handleEditUser = (id: string) => {
@@ -65,7 +72,7 @@ function App() {
         showAlert={showAlert}
         setShowAlert={setShowAlert}
         typeAlert="info"
-        message={message}
+        message={`You has been deleted user: ${userDelete?.name} !`}
       />
       <Form
         handleOpenForm={handleOpenForm}
@@ -84,6 +91,13 @@ function App() {
         rowsPerPage={pagination.rowsPerPage}
         handleChangePage={handleChangePage}
         handleChangeRowsPerPage={handleChangeRowsPerPage}
+      />
+      <Dialog
+        openDialog={openDialog}
+        setOpenDialog={setOpenDialog}
+        handleConfirm={handleConfirmDelete}
+        title={`Are you sure you want to delete user ${userDelete?.name} ?`}
+        content={`This action will remove user ${userDelete?.name} from the list, and it cannot be undone. Please proceed with caution !`}
       />
     </>
   )

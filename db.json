@@ -1,15 +1,15 @@
 {
   "users": [
     {
-      "id": "2",
-      "name": "Minh Huyền",
-      "phone": "0705729788",
-      "role": "Admin"
-    },
-    {
       "id": "1",
       "name": "Tuấn Kiệt Nguyễn ",
       "phone": "0976459539",
+      "role": "Admin"
+    },
+    {
+      "id": "2",
+      "name": "Minh Huyền",
+      "phone": "0705729788",
       "role": "Admin"
     },
     {
@@ -61,16 +61,10 @@
       "role": "Leader"
     },
     {
-      "id": "16",
-      "name": "kiet 16",
-      "phone": "0123456789",
-      "role": "Leader"
-    },
-    {
-      "id": "17 ",
-      "name": "kiet 17",
+      "id": "18",
+      "name": "kiet 18",
       "phone": "976459539",
-      "role": "Admin"
+      "role": "Leader"
     }
   ]
 }
