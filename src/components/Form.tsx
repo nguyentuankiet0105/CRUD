@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux"
 import { useForm, SubmitHandler, Controller, FieldValues } from "react-hook-form"
 import { Modal, Box, TextField, Button, MenuItem, Stack, Typography } from '@mui/material';
-import AlertMessage from "@components/Alert"
+import Alert from "@components/Alert"
 import { TUser } from '@interfaces/user-interface';
 import { roles } from '@constants/constant';
 import { createUser, editUser } from "@service/userService"
@@ -76,7 +76,7 @@ const Form = (props: TProps) => {
 
   return (
     <>
-      <AlertMessage
+      <Alert
         showAlert={showAlert}
         setShowAlert={setShowAlert}
         typeAlert="success"

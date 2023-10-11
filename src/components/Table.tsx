@@ -11,20 +11,42 @@ import {
 } from '@mui/material';
 import { tableForm } from '@constants/constant'
 import { TUser } from "@interfaces/user-interface"
+import Alert from "@components/Alert"
+import Dialog from '@components/Dialog';
 
 type TProps = {
   data: TUser[],
-  handleEditUser: (id: string) => void,
-  handleDeleteUser: (id: string) => void,
+  userDelete: TUser,
   totalPage: number,
   page: number,
   rowsPerPage: number,
+  showAlert: boolean,
+  openDialog: boolean,
   handleChangePage: () => void,
   handleChangeRowsPerPage: () => void,
+  setShowAlert: (showAlert: boolean) => void,
+  setOpenDialog: (openDialog: boolean) => void,
+  handleEditUser: (id: string) => void,
+  handleDeleteUser: (id: string) => void,
+  handleConfirmDelete: () => void,
 }
 
 const TableCustom = (props: TProps) => {
-  const { data, handleEditUser, handleDeleteUser, totalPage, page, rowsPerPage, handleChangePage, handleChangeRowsPerPage } = props
+  const { data,
+    userDelete,
+    totalPage,
+    page,
+    rowsPerPage,
+    showAlert,
+    openDialog,
+    handleChangePage,
+    handleChangeRowsPerPage,
+    setShowAlert,
+    setOpenDialog,
+    handleEditUser,
+    handleDeleteUser,
+    handleConfirmDelete
+  } = props
 
   return (
     <>
@@ -62,6 +84,19 @@ const TableCustom = (props: TProps) => {
           rowsPerPageOptions={[5, 10, 15, 20]}
         />
       </TableContainer>
+      <Alert
+        showAlert={showAlert}
+        setShowAlert={setShowAlert}
+        typeAlert="info"
+        message={`You has been deleted user: ${userDelete?.name} !`}
+      />
+      <Dialog
+        openDialog={openDialog}
+        setOpenDialog={setOpenDialog}
+        handleConfirm={handleConfirmDelete}
+        title={`Are you sure you want to delete user ${userDelete?.name} ?`}
+        content={`This action will remove user ${userDelete?.name} from the list, and it cannot be undone. Please proceed with caution !`}
+      />
     </>
   )
 }
