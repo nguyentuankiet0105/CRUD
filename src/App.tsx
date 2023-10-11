@@ -4,7 +4,7 @@ import { TUser } from "@interfaces/user-interface"
 import Table from "@components/Table"
 import Form from "@components/Form"
 import { getAllUser, deleteUser } from "@service/userService"
-import { setPage, setRowsPerPage } from "@store/reducer/user/userReducer"
+import { setPage, setRowsPerPage, clearError } from "@store/reducer/user/userReducer"
 
 function App() {
   const dispatch = useDispatch()
@@ -46,6 +46,7 @@ function App() {
   }, [handleGetAllUser])
 
   const handleDeleteUser = (id: string) => {
+    dispatch(clearError())
     setOpenDialog(true)
     const userSelect = data.find((item: { id: string }) => item.id === id)
     setUserDelete(userSelect)

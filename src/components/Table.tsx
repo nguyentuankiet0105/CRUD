@@ -13,6 +13,8 @@ import { tableForm } from '@constants/constant'
 import { TUser } from "@interfaces/user-interface"
 import Alert from "@components/Alert"
 import Dialog from '@components/Dialog';
+import { useSelector } from 'react-redux';
+import { useMemo } from 'react';
 
 type TProps = {
   data: TUser[],
@@ -47,6 +49,22 @@ const TableCustom = (props: TProps) => {
     handleDeleteUser,
     handleConfirmDelete
   } = props
+
+  const errors = useSelector(state => state.user.error)
+
+  const alertMessage = useMemo(() => {
+    if (errors.code) {
+      return {
+        typeAlert: 'error',
+        message: errors.message
+      }
+    } else {
+      return {
+        typeAlert: 'info',
+        message: `You has been deleted user: ${userDelete?.name} !`
+      }
+    }
+  }, [errors, userDelete?.name])
 
   return (
     <>
@@ -84,19 +102,21 @@ const TableCustom = (props: TProps) => {
           rowsPerPageOptions={[5, 10, 15, 20]}
         />
       </TableContainer>
-      <Alert
-        showAlert={showAlert}
-        setShowAlert={setShowAlert}
-        typeAlert="info"
-        message={`You has been deleted user: ${userDelete?.name} !`}
-      />
-      <Dialog
-        openDialog={openDialog}
-        setOpenDialog={setOpenDialog}
-        handleConfirm={handleConfirmDelete}
-        title={`Are you sure you want to delete user ${userDelete?.name} ?`}
-        content={`This action will remove user ${userDelete?.name} from the list, and it cannot be undone. Please proceed with caution !`}
-      />
+      <>
+        <Alert
+          showAlert={showAlert}
+          setShowAlert={setShowAlert}
+          typeAlert={alertMessage.typeAlert}
+          message={alertMessage.message}
+        />
+        <Dialog
+          openDialog={openDialog}
+          setOpenDialog={setOpenDialog}
+          handleConfirm={handleConfirmDelete}
+          title={`Are you sure you want to delete user ${userDelete?.name} ?`}
+          content={`This action will remove user ${userDelete?.name} from the list, and it cannot be undone. Please proceed with caution !`}
+        />
+      </>
     </>
   )
 }

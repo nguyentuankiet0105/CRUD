@@ -26,6 +26,9 @@ export const userReducer = createSlice({
     },
     setRowsPerPage: (state: RootState, action: PayloadAction) => {
       state.pagination.rowsPerPage = action.payload
+    },
+    clearError: (state: RootState) => {
+      state.error = {}
     }
   },
   extraReducers: (builder) => {
@@ -89,4 +92,4 @@ export const userReducer = createSlice({
   },
 });
 
-export const { setPage, setRowsPerPage } = userReducer.actions
+export const { setPage, setRowsPerPage, clearError } = userReducer.actions

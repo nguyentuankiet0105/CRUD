@@ -20,7 +20,7 @@ const AlertMessage = (props: TProps) => {
  return (
   <Snackbar
    open={showAlert}
-   autoHideDuration={3000}
+   autoHideDuration={1000}
    onClose={handleClose}
    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
   >
