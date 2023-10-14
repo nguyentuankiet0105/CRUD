@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { TUser } from "@interfaces/user-interface"
 import Table from "@components/Table"
 import Form from "@components/Form"
+import SearchForm from "@components/Search"
 import { getAllUser, deleteUser } from "@service/userService"
 import { setPage, setRowsPerPage, clearError } from "@store/reducer/user/userReducer"
 
@@ -33,12 +34,14 @@ function App() {
     dispatch(setRowsPerPage(parseInt(e.target.value, 10)))
   };
 
-  const handleGetAllUser = useCallback(() => {
-    dispatch(getAllUser({
+  const handleGetAllUser = useCallback((data?: object) => {
+    const conditionSearch = (data && data.name !== "")
+    const params = {
       _page: Number(pagination.page) + 1,
       _limit: pagination.rowsPerPage,
-    }))
-
+      ...(conditionSearch && { name: data.name }),
+    };
+    dispatch(getAllUser(params));
   }, [dispatch, pagination.page, pagination.rowsPerPage])
 
   useEffect(() => {
@@ -68,8 +71,13 @@ function App() {
     setIsOpen(true)
   }
 
+  const handleSearch = (data: object) => {
+    handleGetAllUser(data)
+  }
+
   return (
     <>
+      <SearchForm handleSearch={handleSearch} />
       <Form
         handleOpenForm={handleOpenForm}
         isOpen={isOpen}
