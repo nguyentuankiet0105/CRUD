@@ -17,6 +17,7 @@ function App() {
   const [openDialog, setOpenDialog] = useState<boolean>(false)
   const [editingUser, setEditingUser] = useState<TUser | null>(null)
   const [userDelete, setUserDelete] = useState<TUser | null>(null)
+  const [typeSearch, setTypeSearch] = useState<string>('name')
 
   const handleOpenForm = () => {
     setIsEdit(false)
@@ -35,14 +36,14 @@ function App() {
   };
 
   const handleGetAllUser = useCallback((data?: object) => {
-    const conditionSearch = (data && data.name !== "")
+    const conditionSearch = (data && data?.[typeSearch])
     const params = {
       _page: Number(pagination.page) + 1,
       _limit: pagination.rowsPerPage,
-      ...(conditionSearch && { name: data.name }),
+      ...(conditionSearch && { [typeSearch]: data?.[typeSearch] }),
     };
     dispatch(getAllUser(params));
-  }, [dispatch, pagination.page, pagination.rowsPerPage])
+  }, [dispatch, pagination.page, pagination.rowsPerPage, typeSearch])
 
   useEffect(() => {
     handleGetAllUser()
@@ -75,9 +76,18 @@ function App() {
     handleGetAllUser(data)
   }
 
+  const handleSelectTypeSearch = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setTypeSearch(e.target.value);
+  }
+
   return (
     <>
-      <SearchForm handleSearch={handleSearch} />
+      <SearchForm
+        handleSearch={handleSearch}
+        typeSearch={typeSearch}
+        setTypeSearch={setTypeSearch}
+        handleSelectTypeSearch={handleSelectTypeSearch}
+      />
       <Form
         handleOpenForm={handleOpenForm}
         isOpen={isOpen}
