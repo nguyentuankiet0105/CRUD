@@ -1,9 +1,12 @@
-import UserManagement from '@pages/UserManagement'
+import {
+  RouterProvider,
+} from "react-router-dom";
+import { router } from "./router/main"
 
 const App = () => {
   return (
     <>
-      <UserManagement />
+      <RouterProvider router={router} />
     </>
   )
 }
