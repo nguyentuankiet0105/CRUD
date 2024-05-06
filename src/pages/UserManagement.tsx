@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { TUser } from "@interfaces/user-interface"
-import Table from "@components/Table"
-import Form from "@components/Form"
-import SearchForm from "@components/Search"
+import Table from "@components/users/Table"
+import Form from "@components/users/Form"
+import SearchForm from "@components/users/Search"
 import { getAllUser, deleteUser } from "@service/userService"
 import { setPage, setRowsPerPage, clearError } from "@store/reducer/user/userReducer"
 
