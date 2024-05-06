@@ -1,16 +1,17 @@
 import { useCallback, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { TUser } from "@interfaces/user-interface"
-import Table from "@components/users/Table"
+import Table from "@components/users/UserList"
 import Form from "@components/users/Form"
 import SearchForm from "@components/users/Search"
 import { getAllUser, deleteUser } from "@service/userService"
 import { setPage, setRowsPerPage, clearError } from "@store/reducer/user/userReducer"
+import { RootState } from "@store/index"
 
 function UserManagement() {
   const dispatch = useDispatch()
-  const data = useSelector(state => state.user.listUser)
-  const pagination = useSelector(state => state.user.pagination)
+  const data = useSelector((state: RootState) => state.user.listUser)
+  const pagination = useSelector((state: RootState) => state.user.pagination)
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [isEdit, setIsEdit] = useState<boolean>(false)
   const [showAlert, setShowAlert] = useState<boolean>(false)

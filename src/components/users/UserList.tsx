@@ -11,10 +11,12 @@ import {
 } from '@mui/material';
 import { tableForm } from '@constants/constant'
 import { TUser } from "@interfaces/user-interface"
-import Alert from "@components/Alert"
-import Dialog from '@components/Dialog';
+import Alert from "@components/common/Alert"
+import Dialog from '@components/common/Dialog';
+import { RootState } from '@store/index';
 import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 type TProps = {
   data: TUser[],
@@ -34,6 +36,8 @@ type TProps = {
 }
 
 const TableCustom = (props: TProps) => {
+  const navigate = useNavigate();
+
   const { data,
     userDelete,
     totalPage,
@@ -50,7 +54,7 @@ const TableCustom = (props: TProps) => {
     handleConfirmDelete
   } = props
 
-  const errors = useSelector(state => state.user.error)
+  const errors = useSelector((state: RootState) => state.user.error);
 
   const alertMessage = useMemo(() => {
     if (errors.code) {
@@ -66,6 +70,10 @@ const TableCustom = (props: TProps) => {
     }
   }, [errors, userDelete?.name])
 
+  const goToUserDetail = (user: TUser) => () => {
+    navigate(`/users/${user.id}`, { state: { user } })
+  }
+
   return (
     <>
       <TableContainer className="table" component={Paper}>
@@ -79,7 +87,7 @@ const TableCustom = (props: TProps) => {
           </TableHead>
           <TableBody>
             {data && data?.map((item: TUser) => (
-              <TableRow key={item.id}>
+              <TableRow key={item.id} onClick={goToUserDetail(item)}>
                 <TableCell align="center">{item.id}</TableCell>
                 <TableCell align="center">{item.name}</TableCell>
                 <TableCell align="center">{item.phone}</TableCell>
