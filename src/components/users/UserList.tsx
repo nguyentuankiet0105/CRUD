@@ -7,7 +7,8 @@ import {
   TableRow,
   Paper,
   Button,
-  TablePagination
+  TablePagination,
+  styled
 } from '@mui/material';
 import { tableForm } from '@constants/constant'
 import { TUser } from "@interfaces/user-interface"
@@ -17,6 +18,13 @@ import { RootState } from '@store/index';
 import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+const Image = styled("img")({
+  width: "60px",
+  height: "60px",
+  borderRadius: "50%",
+  border: "2px solid cornflowerblue",
+})
 
 type TProps = {
   data: TUser[],
@@ -87,11 +95,20 @@ const TableCustom = (props: TProps) => {
           </TableHead>
           <TableBody>
             {data && data?.map((item: TUser) => (
-              <TableRow key={item.id} onClick={goToUserDetail(item)}>
+              <TableRow key={item.id} >
                 <TableCell align="center">{item.id}</TableCell>
-                <TableCell align="center">{item.name}</TableCell>
+                <TableCell
+                  align="center"
+                  sx={{ cursor: 'pointer' }}
+                  onClick={goToUserDetail(item)}
+                >
+                  {item.name}
+                </TableCell>
                 <TableCell align="center">{item.phone}</TableCell>
                 <TableCell align="center">{item.role}</TableCell>
+                <TableCell align="center">
+                  <Image src={item.image ?? "https://t3.ftcdn.net/jpg/05/53/79/60/360_F_553796090_XHrE6R9jwmBJUMo9HKl41hyHJ5gqt9oz.jpg"} alt="avt" />
+                </TableCell>
                 <TableCell align="center">
                   <Button variant="outlined" onClick={() => handleEditUser(item.id)}>Edit</Button>
                   <Button variant="outlined" color="error" onClick={() => handleDeleteUser(item.id)}>Delete</Button>

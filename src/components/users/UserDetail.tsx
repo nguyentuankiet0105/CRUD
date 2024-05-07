@@ -21,6 +21,11 @@ const UserDetail = () => {
    <div>{userItem.name}</div>
    <div>{userItem.phone}</div>
    <div>{userItem.role}</div>
+   <div>
+    <img
+     src={userItem.image ?? "https://t3.ftcdn.net/jpg/05/53/79/60/360_F_553796090_XHrE6R9jwmBJUMo9HKl41hyHJ5gqt9oz.jpg"}
+     alt="avt" />
+   </div>
   </>
  );
 };
