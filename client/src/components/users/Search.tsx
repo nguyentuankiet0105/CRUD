@@ -40,8 +40,8 @@ const SearchForm = (props: TProps) => {
     defaultValue="name"
     onChange={handleSelectTypeSearch}
    >
-    <MenuItem value="id">
-     ID
+    <MenuItem value="userId">
+     UserId
     </MenuItem>
     <MenuItem value="name">
      Name

@@ -50,14 +50,14 @@ function UserManagement() {
     handleGetAllUser()
   }, [handleGetAllUser])
 
-  const handleDeleteUser = (id: string) => {
+  const handleDeleteUser = (userId: string) => {
     dispatch(clearError())
     setOpenDialog(true)
-    const userSelect = data.find((item: { id: string }) => item.id === id)
+    const userSelect = data.find((item: { userId: string }) => item.userId === userId)
     setUserDelete(userSelect)
   }
   const handleConfirmDelete = () => {
-    dispatch(deleteUser(userDelete?.id))
+    dispatch(deleteUser(userDelete?.userId))
       .then(() => {
         handleGetAllUser()
         setShowAlert(true)
@@ -66,8 +66,8 @@ function UserManagement() {
       )
   }
 
-  const handleEditUser = (id: string) => {
-    const userToEdit: TUser = data.find((item: { id: string }) => item.id === id)
+  const handleEditUser = (userId: string) => {
+    const userToEdit: TUser = data.find((item: { userId: string }) => item.userId === userId)
     setEditingUser(userToEdit)
     setIsEdit(true)
     setIsOpen(true)

@@ -67,7 +67,7 @@ export const userReducer = createSlice({
         .addCase(editUser.fulfilled, (state: RootState, action: PayloadAction) => {
           state.loading = false;
           state.listUser = state.listUser.map((item: TUser) =>
-            item.id === action.payload.id ? action.payload : item
+            item.userId === action.payload.userId ? action.payload : item
           );
         })
         .addCase(editUser.rejected, (state: RootState, action: PayloadAction) => {
@@ -80,9 +80,9 @@ export const userReducer = createSlice({
           state.loading = true;
         })
         .addCase(deleteUser.fulfilled, (state: RootState, action: PayloadAction) => {
-          const { id } = action.payload;
-          if (id) {
-            state.listUser = state.listUser.filter((item: TUser) => item.id !== id);
+          const { userId } = action.payload;
+          if (userId) {
+            state.listUser = state.listUser.filter((item: TUser) => item.userId !== userId);
           }
         })
         .addCase(deleteUser.rejected, (state: RootState, action: PayloadAction) => {

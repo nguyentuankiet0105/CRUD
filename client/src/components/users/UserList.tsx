@@ -38,8 +38,8 @@ type TProps = {
   handleChangeRowsPerPage: () => void,
   setShowAlert: (showAlert: boolean) => void,
   setOpenDialog: (openDialog: boolean) => void,
-  handleEditUser: (id: string) => void,
-  handleDeleteUser: (id: string) => void,
+  handleEditUser: (userId: string) => void,
+  handleDeleteUser: (userId: string) => void,
   handleConfirmDelete: () => void,
 }
 
@@ -79,7 +79,7 @@ const TableCustom = (props: TProps) => {
   }, [errors, userDelete?.name])
 
   const goToUserDetail = (user: TUser) => () => {
-    navigate(`/users/${user.id}`, { state: { user } })
+    navigate(`/users/${user.userId}`, { state: { user } })
   }
 
   return (
@@ -95,8 +95,8 @@ const TableCustom = (props: TProps) => {
           </TableHead>
           <TableBody>
             {data && data?.map((item: TUser) => (
-              <TableRow key={item.id} >
-                <TableCell align="center">{item.id}</TableCell>
+              <TableRow key={item.userId} >
+                <TableCell align="center">{item.userId}</TableCell>
                 <TableCell
                   align="center"
                   sx={{ cursor: 'pointer' }}
@@ -110,8 +110,8 @@ const TableCustom = (props: TProps) => {
                   <Image src={item.image ?? "https://t3.ftcdn.net/jpg/05/53/79/60/360_F_553796090_XHrE6R9jwmBJUMo9HKl41hyHJ5gqt9oz.jpg"} alt="avt" />
                 </TableCell>
                 <TableCell align="center">
-                  <Button variant="outlined" onClick={() => handleEditUser(item.id)}>Edit</Button>
-                  <Button variant="outlined" color="error" onClick={() => handleDeleteUser(item.id)}>Delete</Button>
+                  <Button variant="outlined" onClick={() => handleEditUser(item.userId)}>Edit</Button>
+                  <Button variant="outlined" color="error" onClick={() => handleDeleteUser(item.userId)}>Delete</Button>
                 </TableCell>
               </TableRow>
             ))}

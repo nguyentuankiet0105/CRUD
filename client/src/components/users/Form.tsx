@@ -65,7 +65,7 @@ const Form = (props: TProps) => {
   const { register, reset, setValue, handleSubmit, control, formState: { errors }, watch } = useForm<TUser>(
     {
       defaultValues: {
-        id: "",
+        userId: "",
         name: "",
         phone: "",
         role: "Admin",
@@ -78,7 +78,7 @@ const Form = (props: TProps) => {
 
   useEffect(() => {
     if (editingUser && isEdit) {
-      setValue("id", editingUser.id);
+      setValue("userId", editingUser.userId);
       setValue("name", editingUser.name);
       setValue("phone", editingUser.phone);
       setValue("role", editingUser.role);
@@ -97,7 +97,7 @@ const Form = (props: TProps) => {
   }, [editingUser, isEdit])
 
 
-  const customRegister = (key: 'id' | 'name' | 'phone' | 'role' | 'image') => {
+  const customRegister = (key: 'userId' | 'name' | 'phone' | 'role' | 'image') => {
     return {
       onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files
@@ -158,7 +158,7 @@ const Form = (props: TProps) => {
             <form onSubmit={handleSubmit(handlCreateUser)}>
               <Stack spacing={2}>
                 <Controller
-                  name="id"
+                  name="userId"
                   control={control}
                   rules={{ required: '* Id is required' }}
                   render={({ field }: FieldValues) =>
@@ -166,8 +166,8 @@ const Form = (props: TProps) => {
                       {...field}
                       id="outlined-required"
                       label="Id"
-                      error={Boolean(errors.id)}
-                      helperText={errors.id ? errors.id.message : null}
+                      error={Boolean(errors.userId)}
+                      helperText={errors.userId ? errors.userId.message : null}
                     />
                   }
                 />

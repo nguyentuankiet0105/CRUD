@@ -17,7 +17,7 @@ const UserDetail = () => {
  return (
   <>
    <h1>UserDetail</h1>
-   <div>{userItem.id}</div>
+   <div>{userItem.userId}</div>
    <div>{userItem.name}</div>
    <div>{userItem.phone}</div>
    <div>{userItem.role}</div>

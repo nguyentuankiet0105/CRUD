@@ -16,13 +16,13 @@ export const createUser = createAsyncThunk("createUser", async (data: TUser) => 
 })
 
 export const editUser = createAsyncThunk("editUser", async (data: TUser) => {
- const res = await api.put(`/users/${data.id}`, data)
+ const res = await api.put(`/users/${data.userId}`, data)
  const result = res.data
  return result
 })
 
-export const deleteUser = createAsyncThunk("deleteUser", async (id: string) => {
- const res = await api.delete(`/users/${id}`)
+export const deleteUser = createAsyncThunk("deleteUser", async (userId: string) => {
+ const res = await api.delete(`/users/${userId}`)
  const result = res.data
  return result
 })

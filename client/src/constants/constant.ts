@@ -1,5 +1,5 @@
 export const tableForm = {
- head: ["Id", "Name", "Phone", "Role", "Avatar", "Action"],
+ head: ["userId", "Name", "Phone", "Role", "Avatar", "Action"],
 }
 export const roles = [
  {
