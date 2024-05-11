@@ -10,9 +10,30 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 app.get("/users", async (req, res) => {
+  const page = req.query._page ?? 0;
+  const rowPerPage = req.query._limit || 5;
   try {
-    const users = await User.find({});
+    const users = {
+      userList: await User.find({})
+        .skip(page * rowPerPage)
+        .limit(rowPerPage),
+      total: await User.countDocuments(),
+    };
     res.status(200).send(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/users/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.findOne({ userId });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    } else {
+      res.status(200).json(user);
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -35,11 +56,11 @@ app.post("/users", async (req, res) => {
 app.put("/users/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
-    const user = await User.findByIdAndUpdate(userId, req.body);
+    const user = await User.updateOne({ userId }, req.body);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     } else {
-      const userUpdate = await User.findById(userId);
+      const userUpdate = await User.findOne({ userId });
       res.status(200).json(userUpdate);
     }
   } catch (error) {
@@ -50,13 +71,13 @@ app.put("/users/:userId", async (req, res) => {
 app.delete("/users/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
-    const user = await User.findByIdAndDelete(userId);
+    const user = await User.findOne({ userId });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     } else {
+      const userDelete = await User.deleteOne({ userId });
       res.status(200).json({ message: "User deleted successfully" });
     }
-    
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

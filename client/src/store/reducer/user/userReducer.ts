@@ -38,9 +38,9 @@ export const userReducer = createSlice({
         state.loading = true;
       })
       .addCase(getAllUser.fulfilled, (state: RootState, action: PayloadAction) => {
-        const { total, result } = action.payload
+        const { total, userList } = action.payload
         state.pagination.total = total
-        state.listUser = result;
+        state.listUser = userList;
       })
       .addCase(getAllUser.rejected, (state: RootState, action: PayloadAction) => {
         state.loading = false;

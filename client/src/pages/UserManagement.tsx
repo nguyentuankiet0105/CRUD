@@ -39,7 +39,7 @@ function UserManagement() {
   const handleGetAllUser = useCallback((data?: object) => {
     const conditionSearch = (data && data?.[typeSearch])
     const params = {
-      _page: Number(pagination.page) + 1,
+      _page: Number(pagination.page),
       _limit: pagination.rowsPerPage,
       ...(conditionSearch && { [typeSearch]: data?.[typeSearch] }),
     };
