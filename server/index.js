@@ -8,13 +8,18 @@ import authRoute from "./routes/auth.route.js";
 dotenv.config();
 const app = express();
 
+const corsOptions = {
+  origin: "http://localhost:5173",
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
 
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/auth", authRoute);
-
 
 const port = process.env.PORT;
 const DatabaseURL = process.env.DATABASE_CONNECT;

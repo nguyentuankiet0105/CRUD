@@ -1,6 +1,6 @@
 import { auth } from "../model/auth.model.js";
 
-const signup = async (req, res, next) => {
+const register = async (req, res, next) => {
   const { email } = req.body;
   const accountExists = await auth.findOne({ email });
   if (accountExists) {
@@ -17,7 +17,32 @@ const signup = async (req, res, next) => {
   }
 };
 
-const signin = async (req, res) => {
-  res.send("login");
+const login = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const account = await auth.findOne({ username });
+    if (!account) {
+      return res.status(400).json({ message: "Account does not exist" });
+    }
+    const isMatched = await account.comparePassword(password);
+    if (!isMatched) {
+      return res.status(400).json({ message: "Invalid password" });
+    }
+    gennerateToken(account, 200, res);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
-export { signup, signin };
+
+const gennerateToken = async (account, statusCode, res) => {
+  const token = await account.jwtGennerateToken();
+  const options = {
+    expires: new Date(Date.now() + parseInt(process.env.EXPIRE_TOKEN)),
+  };
+  res.status(statusCode).cookie("access_token", token, options).json({
+    success: true,
+    token,
+  });
+};
+
+export { register, login };
